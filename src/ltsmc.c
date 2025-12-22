@@ -493,7 +493,11 @@ int main(int argc, char *argv[])
 			goto cleanup_tsm;
 		}
 
-		char buf[TSM_BUF_LENGTH] = {0};
+		char* buf = malloc(TSM_BUF_LENGTH);
+		if (!buf) {
+			goto cleanup_tsm;
+		}
+
 		size_t size;
 		do {
 			size = fread(buf, 1, TSM_BUF_LENGTH, stdin);
@@ -510,6 +514,9 @@ int main(int argc, char *argv[])
 				break;
 			}
 		} while (!feof(stdin));
+
+		if (buf) free(buf);
+		buf = NULL;
 
 		rc = tsm_fclose(&session);
 		if (rc)

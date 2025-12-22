@@ -64,6 +64,9 @@ rm -rf %{buildroot}
 
 %changelog
 
+* Mon Sep 15 2025 Samuel Hasert <s.hasert@gsi.de> 0.9.2
+- Increased buffersize to 16 MiB
+
 * Thu Jul 28 2022 Thomas Stibor <t.stibor@gsi.de> 0.9.0-1
 - Remove FSQ to keep LTSM as a Lustre TSM copytool project.
 

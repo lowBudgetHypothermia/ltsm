@@ -152,12 +152,20 @@ int crc32file(const char *filename, uint32_t *crc32result)
 	FILE *file;
 	size_t cur_read;
 	uint32_t crc32sum = 0;
-	unsigned char buf[TSM_BUF_LENGTH] = {0};
+	unsigned char* buf = malloc(TSM_BUF_LENGTH); // reserve memory on heap because stack too small
+	if (!buf) {
+		rc = errno;
+		CT_ERROR(rc, "malloc");
+
+        return rc;
+	}
 
 	file = fopen(filename, "r");
 	if (file == NULL) {
 		rc = -errno;
 		CT_ERROR(rc, "fopen failed on '%s'", filename);
+		if (buf) free(buf);
+		buf = NULL;
 
 		return rc;
 	}
@@ -174,9 +182,10 @@ int crc32file(const char *filename, uint32_t *crc32result)
 
 	} while (!feof(file));
 
-	int rc_minor;
+	if (buf) free(buf);
+	buf = NULL;
 
-	rc_minor = fclose(file);
+	int rc_minor = fclose(file);
 	if (rc_minor) {
 		rc_minor = -errno;
 		CT_ERROR(rc_minor, "fclose failed on '%s'", filename);
@@ -184,7 +193,9 @@ int crc32file(const char *filename, uint32_t *crc32result)
 		return rc_minor;
 	}
 
-	*crc32result = crc32sum;
+    if (!rc) {
+		*crc32result = crc32sum;
+    }
 
 	return rc;
 }
