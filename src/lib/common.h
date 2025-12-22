@@ -46,7 +46,7 @@
 #endif
 
 #ifndef TSM_BUF_LENGTH
-#define TSM_BUF_LENGTH	262144	/* 256 KiB. */
+#define TSM_BUF_LENGTH	16777216 /* 16 MiB */
 #endif
 
 #ifndef MAX_OPTIONS_LENGTH
