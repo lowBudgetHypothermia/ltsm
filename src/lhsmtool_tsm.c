@@ -132,7 +132,7 @@ static void usage(const char *cmd_name, const int rc)
 		"\t-c, --conf <file>\n"
 		"\t\t""option conf file\n"
 		"\t-f, --fsname\n"
-		"\t\t""set fsname manually\n"
+		"\t\t""set fsname manually </override_fs_name>\n"
 		"\t-v, --verbose {error, warn, message, info, debug}"
 		" [default: %s]\n"
 		"\t\t""produce more verbose output\n"
