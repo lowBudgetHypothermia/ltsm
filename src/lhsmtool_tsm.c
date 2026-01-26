@@ -299,7 +299,7 @@ static int ct_parseopts(int argc, char *argv[])
 		{.name = "owner",          .has_arg = required_argument, .flag = NULL,                  .val = 'o'},
 		{.name = "servername",     .has_arg = required_argument, .flag = NULL,                  .val = 's'},
 		{.name = "conf",	   .has_arg = required_argument, .flag = NULL,		        .val = 'c'},
-		{.name = "fsname",	   .has_arg = optional_argument, .flag = NULL,		        .val = 'f'},
+		{.name = "fsname",	   .has_arg = required_argument, .flag = NULL,		        .val = 'f'},
 		{.name = "verbose",        .has_arg = required_argument, .flag = NULL,                  .val = 'v'},
 		{.name = "dry-run",	   .has_arg = no_argument,	 .flag = &opt.o_dry_run,        .val =   1},
 		{.name = "restore-stripe", .has_arg = no_argument,	 .flag = &opt.o_restore_stripe, .val =   1},
@@ -396,8 +396,9 @@ static int ct_parseopts(int argc, char *argv[])
 	opt.o_mnt_fd = -1;
 
 	/* Filespace name is set to Lustre mount point. */
-	if (!opt.o_fsname[0])
+	if (!opt.o_fsname[0]) {
 		strncpy(opt.o_fsname, opt.o_mnt, DSM_MAX_FSNAME_LENGTH);
+	}
 
 	const size_t len_fsname = strlen(opt.o_fsname);
 	if (len_fsname > 2 && opt.o_fsname[len_fsname - 1] == '/')
